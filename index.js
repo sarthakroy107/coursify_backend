@@ -10,6 +10,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 const userRoutes = require('./routes/UserRoute')
+const cors = require('cors')
+app.use(
+	cors()
+)
 app.use('/api/v1', userRoutes);
 
 app.get('/', (req, res)=>{

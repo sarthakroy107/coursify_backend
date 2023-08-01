@@ -14,6 +14,11 @@ exports.createTags = async (req, res) => {
             })
         }
         const newTag = await Tag.create({name: name, category: categoryId});
+        await Category.findByIdAndUpdate(categoryId, {
+            $push:{
+                tags: newTag._id
+            }
+        })
         return res.status(200).json({
             success: true,
             message: "Tag created successfully"

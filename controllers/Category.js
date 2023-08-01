@@ -31,3 +31,25 @@ exports.createCategory = async (req, res) => {
         })
     }
 }
+
+exports.getCategories = async (req, res) => {
+    try{
+        const categories = await Category.find({}).populate({
+            path: "tags",
+            
+        }).exec();
+        return res.status(200).json({
+            success:true,
+            success:true,
+            message:"Categories fetched",
+            data:categories
+        })
+    }
+    catch(err) {
+        return res.status(501).json({
+            success:false,
+            message:"Can not get categories",
+            data: err
+        })
+    }
+}
