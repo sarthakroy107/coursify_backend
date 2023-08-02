@@ -65,7 +65,7 @@ exports.findByTags = async (req, res) => {
         const {tags} = req.body;
         console.log("TAGS");
         console.log(tags);
-        const users = await Profile.find({tags: {$in: tags}}).exec();
+        const users = await Profile.find({tags: {$in: tags}}).populate("user").exec();
         return res.status(200).json({
             success:true,
             message:"Users fetched successfully.",
@@ -76,6 +76,24 @@ exports.findByTags = async (req, res) => {
         return res.status(501).json({
             success:true,
             message: "Users with tags fetching failed"
+        })
+    }
+}
+
+exports.fetchTags = async (req, res) => {
+    try{
+        const {categoryId} = req.body;
+        const tags = await Category.findById(categoryId).populate('tags').exec();
+        return res.status(200).json({
+            success:true,
+            message:"Tag details fetched",
+            data:tags.tags
+        })
+    }
+    catch(err) {
+        return res.status(200).json({
+            success: false,
+            message: "Tags fetching failed"
         })
     }
 }
